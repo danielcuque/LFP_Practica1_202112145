@@ -1,34 +1,51 @@
-import customtkinter
+import tkinter as tk
+import customtkinter as ctk
 
 # # Modes: "System" (standard), "Dark", "Light"
-customtkinter.set_appearance_mode("dark")
+ctk.set_appearance_mode("dark")
 
 # # Themes: "blue" (standard), "green", "dark-blue"
-customtkinter.set_default_color_theme("blue")
-
-appWidth = 500
-appHeight = 500
+ctk.set_default_color_theme("blue")
 
 
-class App(customtkinter.CTk):
+class App(ctk.CTk):
+    APP_WIDTH = 500
+    APP_HEIGHT = 500
+
     def __init__(self):
         super().__init__()
 
-        self.minsize(appWidth, appHeight)
+        # Set minimum size of window
+        self.minsize(self.APP_WIDTH, self.APP_HEIGHT)
+
+        # Custom grid
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+
+        self.frame_left = ctk.CTkFrame(master=self,
+                                       width=180,
+                                       corner_radius=0)
+        self.frame_left.grid(row=0, column=0, sticky="nswe")
+
+        self.frame_right = ctk.CTkFrame(master=self)
+        self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
 
         # Size of the app
         screenWidth = self.winfo_screenwidth()
         screenHeight = self.winfo_screenheight()
 
         # Coordinates of the center of the screen
-        x = (screenWidth - appWidth) / 2
-        y = (screenHeight - appHeight) / 2
+        x = (screenWidth - self.APP_WIDTH) / 2
+        y = (screenHeight - self.APP_HEIGHT) / 2
 
         # Position of the app
         self.geometry(
-            f'{appWidth}x{appHeight}+{int(x)}+{int(y)}')
+            f'{self.APP_WIDTH}x{self.APP_HEIGHT}+{int(x)}+{int(y)}')
 
         self.title("App FIUSAC")
+        self.label = ctk.CTkLabel(self, text="Reporte de Pensum FIUSAC")
 
 
 if __name__ == "__main__":
