@@ -9,28 +9,19 @@ ctk.set_default_color_theme("blue")
 
 
 class App(ctk.CTk):
+
+    # Size of the window
     APP_WIDTH = 500
     APP_HEIGHT = 500
+
+    # Default position of the grid
+    STICKY_DEFAULT = "nswe"
 
     def __init__(self):
         super().__init__()
 
         # Set minimum size of window
         self.minsize(self.APP_WIDTH, self.APP_HEIGHT)
-
-        # Custom grid
-        self.grid_columnconfigure(1, weight=1)
-        self.grid_rowconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=1)
-        self.grid_rowconfigure(0, weight=1)
-
-        self.frame_left = ctk.CTkFrame(master=self,
-                                       width=180,
-                                       corner_radius=0)
-        self.frame_left.grid(row=0, column=0, sticky="nswe")
-
-        self.frame_right = ctk.CTkFrame(master=self)
-        self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
 
         # Size of the app
         screenWidth = self.winfo_screenwidth()
@@ -43,6 +34,11 @@ class App(ctk.CTk):
         # Position of the app
         self.geometry(
             f'{self.APP_WIDTH}x{self.APP_HEIGHT}+{int(x)}+{int(y)}')
+
+        # Custom grid
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+
 
         self.title("App FIUSAC")
         self.label = ctk.CTkLabel(self, text="Reporte de Pensum FIUSAC")
