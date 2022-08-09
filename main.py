@@ -2,7 +2,10 @@ import customtkinter as ctk
 
 # Views
 from views.credits import CreditsWindow
-from views.home.mainMenu import mainMenu
+from views.home.mainMenu import MainMenu
+
+# Helpers
+from docs.helpers.positionWindow import PositionWindow
 
 # # Modes: "System" (standard), "Dark", "Light"
 ctk.set_appearance_mode("dark")
@@ -24,17 +27,10 @@ class App(ctk.CTk):
         self.minsize(self.APP_WIDTH, self.APP_HEIGHT)
         self.protocol("WM_DELETE_WINDOW", self.destroy)
 
-        # Size of the app
-        screenWidth = self.winfo_screenwidth()
-        screenHeight = self.winfo_screenheight()
-
-        # Coordinates of the center of the screen
-        x = (screenWidth - self.APP_WIDTH) / 2
-        y = (screenHeight - self.APP_HEIGHT) / 2
-
         # Position of the app
-        self.geometry(
-            f'{self.APP_WIDTH}x{self.APP_HEIGHT}+{int(x)}+{int(y)}')
+        self.geometry(PositionWindow().positionWindow(self.winfo_screenwidth(
+        ), self.winfo_screenheight(), self.APP_WIDTH, self.APP_HEIGHT))
+
         self.title("App FIUSAC")
 
         # Custom grid layout (2x2)
@@ -52,12 +48,14 @@ class App(ctk.CTk):
         # Close the current frame and open the CRUD frame
         self.startButton = ctk.CTkButton(
             master=self, text="Iniciar", command=self.main_menu)
-        self.startButton.grid(row=1, column=0, padx=20, pady=20, sticky="ew")
+        self.startButton.grid(row=1, column=0,
+                              padx=20, pady=20, sticky="ew")
 
         # Show credits
         self.creditsButton = ctk.CTkButton(
             master=self, command=self.show_credits, text="Créditos")
-        self.creditsButton.grid(row=1, column=1, padx=20, pady=20, sticky="ew")
+        self.creditsButton.grid(row=1, column=1,
+                                padx=20, pady=20, sticky="ew")
 
     # Principal functions
     def show_credits(self):
@@ -65,7 +63,7 @@ class App(ctk.CTk):
 
     def main_menu(self):
         self.destroy()
-        app = mainMenu(self)
+        app = MainMenu(self)
         app.mainloop()
 
 

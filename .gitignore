@@ -1,5 +1,6 @@
 /build
 /dist
 /views/__pycache__
+__pycache__
 p.py
 p2.py

@@ -1,12 +1,14 @@
 import customtkinter as ctk
 from tkinter import filedialog
 
+# Helpers
+from docs.helpers.positionWindow import PositionWindow
 
 # Import windows
 from views.crud.mainManageFrame import mainManageFrame
 
 
-class mainMenu(ctk.CTk):
+class MainMenu(ctk.CTk):
 
     # Sieze of the window
     APP_WIDTH = 400
@@ -21,17 +23,9 @@ class mainMenu(ctk.CTk):
     def __init__(self, *args, **kwargs):
         super().__init__()
 
-        # Size of the app
-        screenWidth = self.winfo_screenwidth()
-        screenHeight = self.winfo_screenheight()
-
-        # Coordinates of the center of the screen
-        x = (screenWidth - self.APP_WIDTH) / 2
-        y = (screenHeight - self.APP_HEIGHT) / 2
-
         # Position of the app
         self.geometry(
-            f'{self.APP_WIDTH}x{self.APP_HEIGHT}+{int(x)}+{int(y)}')
+            PositionWindow().positionWindow(self.winfo_screenwidth(), self.winfo_screenheight(), self.APP_WIDTH, self.APP_HEIGHT))
         self.title("Menú principal")
 
         # Create a secondary frame
