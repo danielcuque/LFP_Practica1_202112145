@@ -1,8 +1,8 @@
-import tkinter as tk
 import customtkinter as ctk
 
 # Views
 from views.credits import CreditsWindow
+from views.home.mainMenu import mainMenu
 
 # # Modes: "System" (standard), "Dark", "Light"
 ctk.set_appearance_mode("dark")
@@ -45,13 +45,13 @@ class App(ctk.CTk):
         # Title of the app
         self.textbox = ctk.CTkLabel(
             master=self, text="Administrador de Pensum FIUSAC",
-            text_font=("Roboto Medium", -16), text_color="white")
+            text_font=("Roboto Medium", -25), text_color="white")
         self.textbox.grid(row=0, column=0, columnspan=2,
                           padx=20, pady=(20, 0), sticky="nsew")
 
         # Close the current frame and open the CRUD frame
         self.startButton = ctk.CTkButton(
-            master=self, text="Iniciar", command=self.new_window)
+            master=self, text="Iniciar", command=self.main_menu)
         self.startButton.grid(row=1, column=0, padx=20, pady=20, sticky="ew")
 
         # Show credits
@@ -63,34 +63,10 @@ class App(ctk.CTk):
     def show_credits(self):
         CreditsWindow(self)
 
-        # # Course label
-        # courseLabel = ctk.CTkLabel(
-        #     window, text="Lenguajes formales y de programación")
-        # courseLabel.pack(side="top", fill="both",
-        #                  expand=True, pady=10, padx=10)
-        # # Students label
-        # studentsLabel = ctk.CTkLabel(
-        #     window, text="Desarrollado por Daniel Estuardo Cuque Ruíz",
-        #     text_font=("Roboto Medium", -14),
-        #     text_color="white")
-        # studentsLabel.pack(side="top", fill="both",
-        #                    expand=True, pady=10, padx=10)
-
-        # # ID student label
-        # idStudentLabel = ctk.CTkLabel(
-        #     window, text="Carné: 202112145", text_font=("Roboto Medium", -14),
-        # )
-        # idStudentLabel.pack(side="top", fill="both",
-        #                     expand=True, pady=10, padx=10)
-
-        # # Close button
-        # closeButton = ctk.CTkButton(
-        #     window, text="Cerrar", command=window.destroy)
-        # closeButton.pack(side="top", fill="both",
-        #                  expand=True, pady=10, padx=10)
-
-    def new_window(self):
-        print("start")
+    def main_menu(self):
+        self.destroy()
+        app = mainMenu(self)
+        app.mainloop()
 
 
 if __name__ == "__main__":
