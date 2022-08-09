@@ -2,6 +2,10 @@ import customtkinter as ctk
 from tkinter import filedialog
 
 
+# Import windows
+from views.crud.mainManageFrame import mainManageFrame
+
+
 class mainMenu(ctk.CTk):
 
     # Sieze of the window
@@ -77,7 +81,9 @@ class mainMenu(ctk.CTk):
             filetypes=(("Archivos de texto", "*.lfp"), ("Todos los archivos", "*.*")))
 
     def manageCourses(self):
-        pass
+        self.destroy()
+        mC = mainManageFrame(self)
+        mC.mainloop()
 
     def countCredits(self):
         pass
