@@ -1,7 +1,4 @@
-from model.credits.courses import Courses
-
-
-from model.credits.courses import Courses
+from model.credits.course import Course
 
 
 class CoursesByStudent:
@@ -16,10 +13,16 @@ class CoursesByStudent:
         if(self.routeFile == ""):
             return False
         else:
-            f = open(self.routeFile, "r")
-            for line in f:
-                newCourse = Courses(line.split(",")[0], line.split(",")[1], line.split(",")[
-                                    2], line.split(",")[3], line.split(",")[4], line.split(",")[5], line.split(",")[6])
-                self.coursesData.append(newCourse)
-            f.close()
+            file = open(self.routeFile, "r")
+            if (len(self.coursesData) > 0):
+                self.coursesData.clear()
+            for line in file:
+                if(line != ""):
+                    newCourse = Course(line.split(",")[0], line.split(",")[1], line.split(",")[
+                        2], line.split(",")[3], line.split(",")[4], line.split(",")[5], line.split(",")[6])
+                    for course in self.coursesData:
+                        if newCourse.idCourse == course.idCourse:
+                            self.coursesData.remove(course)
+                    self.coursesData.append(newCourse)
+            file.close()
             return True

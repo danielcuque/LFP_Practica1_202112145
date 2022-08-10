@@ -1,6 +1,6 @@
 
 # Model class for courses
-class Courses():
+class Course():
 
     idCourse = ""
     name = ""
@@ -24,3 +24,7 @@ class Courses():
         self.semester = semester
         self.credits = credits
         self.currentState = currentState
+
+    def getCourse(self):
+        return self.idCourse + "," + self.name + "," + self.idCoursesRequired + "," + self.isRequired + "," + self.semester + "," + self.credits + "," + self.currentState
+
