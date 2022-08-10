@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
 # Views
-from views.author import CreditsWindow
+from views.home.author import CreditsWindow
 from views.home.mainMenu import MainMenu
 
 # Helpers
