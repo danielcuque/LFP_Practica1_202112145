@@ -6,14 +6,11 @@ class CoursesByStudent:
     # The ID courses will be separated by a ;
     coursesData = []
 
-    def __init__(self, routeFile):
-        self.routeFile = routeFile
-
-    def uploadCourses(self):
-        if(self.routeFile == ""):
+    def uploadCourses(self, routeFile):
+        if(routeFile == ""):
             return False
         else:
-            file = open(self.routeFile, "r")
+            file = open(routeFile, "r")
             if (len(self.coursesData) > 0):
                 self.coursesData.clear()
             for line in file:

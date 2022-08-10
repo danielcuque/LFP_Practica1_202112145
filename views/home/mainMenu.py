@@ -74,7 +74,7 @@ class MainMenu(ctk.CTk):
         fileName = filedialog.askopenfilename(
             initialdir="/", title="Seleccionar archivo",
             filetypes=(("Archivos de texto", "*.LFP"), ("Todos los archivos", "*.*")))
-        uploadInfo = CoursesByStudent(fileName).uploadCourses()
+        uploadInfo = CoursesByStudent().uploadCourses(fileName)
         if(uploadInfo):
             messagebox.showinfo(
                 "Información", "Archivo subido correctamente")

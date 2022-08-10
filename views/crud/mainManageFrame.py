@@ -47,7 +47,7 @@ class mainManageFrame(ctk.CTk):
         # configure grid layout (1x11)
         # empty row with minsize as spacing
         self.frame_left.grid_rowconfigure(0, minsize=10)
-        self.frame_left.grid_rowconfigure(6, weight=1)  # empty row as spacing
+        self.frame_left.grid_rowconfigure(7, weight=1)  # empty row as spacing
         # empty row with minsize as spacing
         self.frame_left.grid_rowconfigure(8, minsize=20)
         # empty row with minsize as spacing
@@ -56,31 +56,37 @@ class mainManageFrame(ctk.CTk):
         self.titleLabel = ctk.CTkLabel(master=self.frame_left,
                                        text="Acciones",
                                        text_font=("Roboto", "14", "bold"))
-        self.titleLabel.grid(row=1, column=0, pady=10, padx=10)
+        self.titleLabel.grid(row=2, column=0, pady=10, padx=10)
 
         # List courses button
         self.listCourseButton = ctk.CTkButton(master=self.frame_left,
                                               text="Listar cursos",
                                               command=lambda: self.changeFrame(ListCourse(self)))
-        self.listCourseButton.grid(row=2, column=0, pady=10, padx=20)
+        self.listCourseButton.grid(row=3, column=0, pady=10, padx=20)
 
         # Create course button
         self.createCourseButton = ctk.CTkButton(master=self.frame_left,
                                                 text="Crear curso",
                                                 command=lambda: self.changeFrame(CreateCourse(self)))
-        self.createCourseButton.grid(row=3, column=0, pady=10, padx=20)
+        self.createCourseButton.grid(row=4, column=0, pady=10, padx=20)
 
         # Update course button
         self.updateCourseButton = ctk.CTkButton(master=self.frame_left,
                                                 text="Actualizar curso",
                                                 command=lambda: self.changeFrame(UpdateCourse(self)))
-        self.updateCourseButton.grid(row=4, column=0, pady=10, padx=20)
+        self.updateCourseButton.grid(row=5, column=0, pady=10, padx=20)
 
         # Delete course button
         self.deleteCourseButton = ctk.CTkButton(master=self.frame_left,
                                                 text="Eliminar curso",
                                                 command=lambda: self.changeFrame(DeleteCourse(self)))
-        self.deleteCourseButton.grid(row=5, column=0, pady=10, padx=20)
+        self.deleteCourseButton.grid(row=6, column=0, pady=10, padx=20)
+
+        # Back to menu button
+        self.menuButton = ctk.CTkButton(master=self.frame_left,
+                                        text="Regresar",
+                                        command=self.go_to_menu)
+        self.menuButton.grid(row=1, column=0, pady=10, padx=20)
 
         # Apparence mode button
         self.appearanceLabel = ctk.CTkLabel(
@@ -89,22 +95,25 @@ class mainManageFrame(ctk.CTk):
 
         self.optionmenu_1 = ctk.CTkOptionMenu(master=self.frame_left,
                                               values=[
-                                                  "Oscuro", "Claro", "Sistema"],
+                                                  "Oscuro", "Claro"],
                                               command=self.change_appearance_mode)
         self.optionmenu_1.grid(row=10, column=0, pady=10, padx=20, sticky="w")
 
-        # Setting components
+        # Set default values
         self.optionmenu_1.set("Oscuro")
 
     def change_appearance_mode(self, new_appearance_mode):
         if new_appearance_mode == "Oscuro":
             ctk.set_appearance_mode("dark")
-        elif new_appearance_mode == "Claro":
+        else:
             ctk.set_appearance_mode("light")
-        elif new_appearance_mode == "Sistema":
-            ctk.set_appearance_mode("System")
 
     def changeFrame(self, frame):
         self.frame_right.destroy()
         self.frame_right = frame
         self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
+
+    def go_to_menu(self):
+        self.destroy()
+        from views.home.mainMenu import MainMenu
+        MainMenu()

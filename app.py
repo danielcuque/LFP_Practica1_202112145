@@ -53,7 +53,7 @@ class App(ctk.CTk):
 
         # Show credits
         self.creditsButton = ctk.CTkButton(
-            master=self, command=self.show_credits, text="Créditos")
+            master=self, command=self.show_credits, text="Autor")
         self.creditsButton.grid(row=1, column=1,
                                 padx=20, pady=20, sticky="ew")
 

@@ -16,10 +16,10 @@ class Course():
     # Aprove = 1, Pending = -1, Studying = 0
     currentState = 0
 
-    def __init__(self, idCourse, name, idCourseRequired, isRequired, semester, credits, currentState):
+    def __init__(self, idCourse, name, idCoursesRequired, isRequired, semester, credits, currentState):
         self.idCourse = idCourse
         self.name = name
-        self.idCoursesRequired = idCourseRequired
+        self.idCoursesRequired = idCoursesRequired
         self.isRequired = isRequired
         self.semester = semester
         self.credits = credits
@@ -27,4 +27,3 @@ class Course():
 
     def getCourse(self):
         return self.idCourse + "," + self.name + "," + self.idCoursesRequired + "," + self.isRequired + "," + self.semester + "," + self.credits + "," + self.currentState
-
