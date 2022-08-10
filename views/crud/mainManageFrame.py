@@ -1,8 +1,14 @@
-import tkinter as tk
 import customtkinter as ctk
+from tkinter import LEFT
 
 # Helpers
 from model.helpers.positionWindow import PositionWindow
+
+# Frames
+from views.crud.listCourse import ListCourse
+from views.crud.createCourse import CreateCourse
+from views.crud.updateCourse import UpdateCourse
+from views.crud.deleteCourse import DeleteCourse
 
 
 class mainManageFrame(ctk.CTk):
@@ -33,7 +39,7 @@ class mainManageFrame(ctk.CTk):
                                        corner_radius=0)
         self.frame_left.grid(row=0, column=0, sticky="nswe")
 
-        self.frame_right = ctk.CTkFrame(master=self)
+        self.frame_right = ListCourse(self)
         self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
 
         # ============ frame_left ============
@@ -52,28 +58,28 @@ class mainManageFrame(ctk.CTk):
                                        text_font=("Roboto", "14", "bold"))
         self.titleLabel.grid(row=1, column=0, pady=10, padx=10)
 
-        # Create course button
-        self.createCourseButton = ctk.CTkButton(master=self.frame_left,
-                                                text="Crear curso",
-                                                command=self.button_event)
-        self.createCourseButton.grid(row=2, column=0, pady=10, padx=20)
-
         # List courses button
         self.listCourseButton = ctk.CTkButton(master=self.frame_left,
                                               text="Listar cursos",
-                                              command=self.button_event)
-        self.listCourseButton.grid(row=3, column=0, pady=10, padx=20)
+                                              command=lambda: self.changeFrame(ListCourse(self)))
+        self.listCourseButton.grid(row=2, column=0, pady=10, padx=20)
+
+        # Create course button
+        self.createCourseButton = ctk.CTkButton(master=self.frame_left,
+                                                text="Crear curso",
+                                                command=lambda: self.changeFrame(CreateCourse(self)))
+        self.createCourseButton.grid(row=3, column=0, pady=10, padx=20)
 
         # Update course button
         self.updateCourseButton = ctk.CTkButton(master=self.frame_left,
                                                 text="Actualizar curso",
-                                                command=self.button_event)
+                                                command=lambda: self.changeFrame(UpdateCourse(self)))
         self.updateCourseButton.grid(row=4, column=0, pady=10, padx=20)
 
         # Delete course button
         self.deleteCourseButton = ctk.CTkButton(master=self.frame_left,
                                                 text="Eliminar curso",
-                                                command=self.button_event)
+                                                command=lambda: self.changeFrame(DeleteCourse(self)))
         self.deleteCourseButton.grid(row=5, column=0, pady=10, padx=20)
 
         # Apparence mode button
@@ -83,14 +89,22 @@ class mainManageFrame(ctk.CTk):
 
         self.optionmenu_1 = ctk.CTkOptionMenu(master=self.frame_left,
                                               values=[
-                                                  "Claro", "Oscuro", "Sistema"],
+                                                  "Oscuro", "Claro", "Sistema"],
                                               command=self.change_appearance_mode)
         self.optionmenu_1.grid(row=10, column=0, pady=10, padx=20, sticky="w")
 
+        # Setting components
         self.optionmenu_1.set("Oscuro")
 
     def change_appearance_mode(self, new_appearance_mode):
-        ctk.set_appearance_mode(new_appearance_mode)
+        if new_appearance_mode == "Oscuro":
+            ctk.set_appearance_mode("dark")
+        elif new_appearance_mode == "Claro":
+            ctk.set_appearance_mode("light")
+        elif new_appearance_mode == "Sistema":
+            ctk.set_appearance_mode("System")
 
-    def button_event(self):
-        print("Button event")
+    def changeFrame(self, frame):
+        self.frame_right.destroy()
+        self.frame_right = frame
+        self.frame_right.grid(row=0, column=1, sticky="nswe", padx=20, pady=20)
