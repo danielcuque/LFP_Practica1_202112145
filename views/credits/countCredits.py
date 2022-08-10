@@ -1,8 +1,7 @@
-from typing_extensions import Self
 import customtkinter as ctk
 
 # Helpers
-from docs.helpers.positionWindow import PositionWindow
+from model.helpers.positionWindow import PositionWindow
 
 
 class CountCredits(ctk.CTkFrame):

@@ -2,7 +2,6 @@ import tkinter as tk
 
 # Function for position
 
-
 class PositionWindow:
     
     @staticmethod

@@ -1,8 +1,9 @@
 import customtkinter as ctk
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 
 # Helpers
-from docs.helpers.positionWindow import PositionWindow
+from model.helpers.positionWindow import PositionWindow
+from model.credits.coursesByStudent import CoursesByStudent
 
 # Import windows
 from views.crud.mainManageFrame import mainManageFrame
@@ -72,7 +73,14 @@ class MainMenu(ctk.CTk):
     def uploadFile(self):
         fileName = filedialog.askopenfilename(
             initialdir="/", title="Seleccionar archivo",
-            filetypes=(("Archivos de texto", "*.lfp"), ("Todos los archivos", "*.*")))
+            filetypes=(("Archivos de texto", "*.LFP"), ("Todos los archivos", "*.*")))
+        uploadInfo = CoursesByStudent(fileName).uploadCourses()
+        if(uploadInfo):
+            messagebox.showinfo(
+                "Información", "Archivo subido correctamente")
+        else:
+            messagebox.showerror(
+                "Error", "No se pudo subir el archivo")
 
     def manageCourses(self):
         self.destroy()

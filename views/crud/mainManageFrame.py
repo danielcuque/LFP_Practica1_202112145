@@ -2,7 +2,7 @@ import tkinter as tk
 import customtkinter as ctk
 
 # Helpers
-from docs.helpers.positionWindow import PositionWindow
+from model.helpers.positionWindow import PositionWindow
 
 class mainManageFrame(ctk.CTk):
 

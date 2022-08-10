@@ -1,11 +1,11 @@
 import customtkinter as ctk
 
 # Views
-from views.credits import CreditsWindow
+from views.author import CreditsWindow
 from views.home.mainMenu import MainMenu
 
 # Helpers
-from docs.helpers.positionWindow import PositionWindow
+from model.helpers.positionWindow import PositionWindow
 
 # # Modes: "System" (standard), "Dark", "Light"
 ctk.set_appearance_mode("dark")
