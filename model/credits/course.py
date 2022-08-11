@@ -11,8 +11,8 @@ class Course():
     # 0 = Optional, 1 = Required
     isRequired = 0
 
-    semester = ""
-    credits = ""
+    semester = 0
+    credits = 0
     # Aprove = 1, Pending = -1, Studying = 0
     currentState = 0
 

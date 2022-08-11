@@ -20,52 +20,47 @@ class ListCourse(ctk.CTkFrame):
 
         if (len(self.courses) > 0):
 
-            # Create a TreeView Scroll
-            # self.scrollTable = ctk.CTkScrollbar(self)
-            # self.scrollTable.pack(side=RIGHT)
+            self.tree = ttk.Treeview(self)
 
-            # Create a TreeView
-            self.dataTable = ttk.Treeview(
-                self)
-            self.dataTable.grid(row=0, column=0, sticky="nsew")
+            # Define the columns of the treeview
+            self.tree["columns"] = (
+                "Id", "Curso", "Prerrequisitos", "Obligatoriedad", "Semestre", "Créditos", "Estado")
 
-            # Configure the scrollbar
-            # self.scrollTable.config(command=self.dataTable.yview)
+            # Define the width of the columns
+            self.tree.column("#0", width=0, stretch=NO)
+            self.tree.column("Id", width=50, minwidth=50, anchor=CENTER)
+            self.tree.column("Curso", width=200, minwidth=200, anchor=CENTER)
+            self.tree.column("Prerrequisitos", width=200,
+                             minwidth=200, anchor=CENTER)
+            self.tree.column("Obligatoriedad", width=100,
+                             minwidth=100, anchor=CENTER)
+            self.tree.column("Semestre", width=100,
+                             minwidth=100, anchor=CENTER)
+            self.tree.column("Créditos", width=100,
+                             minwidth=100, anchor=CENTER)
+            self.tree.column("Estado", width=100, minwidth=100, anchor=CENTER)
 
-            # self.tree["columns"] = (
-            #     "ID", "Nombre", "Cursos requeridos", "Opcional", "Semestre", "Créditos", "Estado")
+            # Define the headings of the columns
+            self.tree.heading("#0", text="", anchor=W)
+            self.tree.heading("Id", text="Id", anchor=W)
+            self.tree.heading("Curso", text="Curso", anchor=W)
+            self.tree.heading("Prerrequisitos",
+                              text="Prerrequisitos", anchor=W)
+            self.tree.heading("Obligatoriedad",
+                              text="Obligatoriedad", anchor=W)
+            self.tree.heading("Semestre", text="Semestre", anchor=W)
+            self.tree.heading("Créditos", text="Créditos", anchor=W)
+            self.tree.heading("Estado", text="Estado", anchor=W)
 
-            # self.tree.column("ID", width=50, anchor="center")
-            # self.tree.column("Nombre", width=200, anchor="center")
-            # self.tree.column("Cursos requeridos", width=200, anchor="center")
-            # self.tree.column("Opcional", width=200, anchor="center")
-            # self.tree.column("Semestre", width=200, anchor="center")
-            # self.tree.column("Créditos", width=200, anchor="center")
-            # self.tree.column("Estado", width=200, anchor="center")
+            # Configure tags
+            self.tree.tag_configure("odd", background="white")
+            self.tree.tag_configure("even", background="lightgray")
 
-            # self.tree.heading("ID", text="ID")
-            # self.tree.heading("Nombre", text="Nombre")
-            # self.tree.heading("Cursos requeridos", text="Cursos requeridos")
-            # self.tree.heading("Opcional", text="Opcional")
-            # self.tree.heading("Semestre", text="Semestre")
-            # self.tree.heading("Créditos", text="Créditos")
-            # self.tree.heading("Estado", text="Estado")
+            # Insert the data into the treeview
+            self.listCourse(self, self.tree, self.courses)
 
-            self.dataTable.tag_configure("odd", background="gray25")
-            self.dataTable.tag_configure("even", background="gray45")
-
-            # # Fill the treeview with data
-            global count
-            count = 0
-            for course in self.courses:
-                if count % 2 == 0:
-                    self.dataTable.insert(parent="", index="end", values=(course.idCourse, course.name, course.idCoursesRequired, course.isRequired,
-                                                                          course.semester, course.credits, course.currentState), tags=("even"))
-                else:
-                    self.dataTable.insert(parent="", index="end", values=(course.idCourse, course.name, course.idCoursesRequired, course.isRequired,
-                                                                          course.semester, course.credits, course.currentState), tags=("odd"))
-                count += 1
-
+            # Pack the treeview
+            self.tree.grid(row=0, column=0, sticky="nsew")
         else:
             self.label_info_2 = ctk.CTkLabel(master=self,
                                              text="No hay cursos registrados",
@@ -76,3 +71,29 @@ class ListCourse(ctk.CTkFrame):
                                              justify=LEFT)
             self.label_info_2.grid(
                 column=0, row=0, sticky="nwe", padx=15, pady=15)
+
+    @staticmethod
+    def listCourse(self, tree, courses):
+        # List of options to elegibility of the course
+        elegibilityCourse = {
+            0: "Obligatorio",
+            1: "Opcional"
+        }
+        # List of options to state of the course
+        stateCourse = {
+            0: "Aprobado",
+            1: "Cursando",
+            - 1: "Pendiente"
+        }
+
+        global count
+        count = 0
+        for course in courses:
+
+            if count % 2 == 0:
+                tree.insert("", "end", values=(course.idCourse, course.name, course.idCoursesRequired,
+                                               elegibilityCourse[course.isRequired], course.semester, course.credits, stateCourse[course.currentState]), tags=("even"))
+            else:
+                tree.insert("", "end", values=(course.idCourse, course.name, course.idCoursesRequired,
+                                               elegibilityCourse[course.isRequired], course.semester, course.credits, stateCourse[course.currentState]), tags=("odd"))
+            count += 1

@@ -14,7 +14,7 @@ from views.crud.deleteCourse import DeleteCourse
 class mainManageFrame(ctk.CTk):
 
     # Size of the window
-    APP_WIDTH = 780
+    APP_WIDTH = 1096
     APP_HEIGHT = 520
 
     def __init__(self, *args, **kwargs):

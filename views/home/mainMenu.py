@@ -75,12 +75,10 @@ class MainMenu(ctk.CTk):
             initialdir="/", title="Seleccionar archivo",
             filetypes=(("Archivos de texto", "*.LFP"), ("Todos los archivos", "*.*")))
         uploadInfo = CoursesByStudent().uploadCourses(fileName)
-        if(uploadInfo):
-            messagebox.showinfo(
-                "Información", "Archivo subido correctamente")
+        if(len(uploadInfo) > 0):
+            messagebox.showerror("Información", uploadInfo)
         else:
-            messagebox.showerror(
-                "Error", "No se pudo subir el archivo")
+            messagebox.showinfo("Información", "Archivo subido correctamente")
 
     def manageCourses(self):
         self.destroy()
