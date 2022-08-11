@@ -15,7 +15,7 @@ class CoursesByStudent:
     coursesData = []
     allowValuesForId = re.compile(r'^[0-9]{3,4}$')
     allowValuesForName = re.compile(
-        r'^[0-9A-Za-z À-ÿ\u00f1\u00d1]+')
+        r'^[0-9A-Za-z À-ÿ\u00f1\u00d1]+$')
     allowValuesForPrecourses = re.compile(r'(\d*;?)*')
     allowValuesForOptionals = re.compile(r'(0|1)')
     allowValuesForSemesterAndCredits = re.compile(r'^[0-9]{1,2}$')
@@ -28,7 +28,7 @@ class CoursesByStudent:
         if(routeFile == ""):
             self.errorReport = "No se selecciono ningun archivo"
         else:
-            file = open(routeFile, "r")
+            file = open(routeFile, "r", encoding="utf8")
             if (len(self.coursesData) > 0):
                 self.coursesData.clear()
             for line in file:
@@ -36,12 +36,13 @@ class CoursesByStudent:
                     verifyCourse = line.split(",")
                     if len(verifyCourse) == 7:
                         # Define a regex to validate just numbers and limite the length of the field to 3-4 characters
+
                         if verifyCourse[0] is None or not re.fullmatch(self.allowValuesForId, verifyCourse[0].strip()):
                             self.errorReport += "Error en la línea " + \
                                 str(self.count) + \
                                 ": El valor - " + \
                                 verifyCourse[0] + " - no es válido para Id\n"
-                        elif verifyCourse[1] is None or not re.match(self.allowValuesForName, verifyCourse[1].strip()):
+                        elif verifyCourse[1] is None or not re.fullmatch(self.allowValuesForName, verifyCourse[1].strip()):
                             self.errorReport += "Error en la línea " + \
                                 str(self.count) + \
                                 ": El valor - " + \

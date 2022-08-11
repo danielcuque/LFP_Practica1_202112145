@@ -1,3 +1,4 @@
+from tkinter import font
 import customtkinter as ctk
 from tkinter import *
 from tkinter import ttk
@@ -14,9 +15,19 @@ class ListCourse(ctk.CTkFrame):
         data = CoursesByStudent()
         self.courses = data.coursesData
 
-        #  configure grid layout (1x1)
-        self.rowconfigure(0, weight=1)
+        #  configure grid layout (2x1)
+        self.rowconfigure(1, weight=1)
         self.columnconfigure(0, weight=1)
+
+        self.titleLabel = ctk.CTkLabel(master=self,
+                                         text="Listado de cursos",
+                                         height=50,
+                                         corner_radius=6,
+                                         text_font=("Roboto Medium", -25), text_color="white",
+                                         fg_color=("white", "gray38"),
+                                         justify=LEFT)
+        self.titleLabel.grid(
+            column=0, row=0, sticky="nwe", padx=15, pady=15)
 
         if (len(self.courses) > 0):
 
@@ -60,17 +71,15 @@ class ListCourse(ctk.CTkFrame):
             self.listCourse(self, self.tree, self.courses)
 
             # Pack the treeview
-            self.tree.grid(row=0, column=0, sticky="nsew")
+            self.tree.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         else:
             self.label_info_2 = ctk.CTkLabel(master=self,
                                              text="No hay cursos registrados",
-                                             height=100,
-                                             corner_radius=6,  # <- custom corner radius
-                                             # <- custom tuple-color
+                                             corner_radius=6,
                                              fg_color=("white", "gray38"),
                                              justify=LEFT)
             self.label_info_2.grid(
-                column=0, row=0, sticky="nwe", padx=15, pady=15)
+                column=0, row=1, sticky="nswe", padx=15, pady=5)
 
     @staticmethod
     def listCourse(self, tree, courses):
