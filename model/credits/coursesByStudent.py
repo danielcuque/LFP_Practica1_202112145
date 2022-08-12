@@ -26,7 +26,7 @@ class CoursesByStudent:
 
     def uploadCourses(self, routeFile):
         if(routeFile == ""):
-            self.errorReport = "No se selecciono ningun archivo"
+            self.errorReport = "No se seleccionó ningun archivo"
         else:
             file = open(routeFile, "r", encoding="utf8")
             if (len(self.coursesData) > 0):
@@ -100,3 +100,16 @@ class CoursesByStudent:
                 self.count += 1
             file.close()
             return self.errorReport
+
+    def getCoursesData(self):
+        return self.coursesData
+
+    def createCourseByForm(self, idCourse, nameCourse, prerequisites, optional, semester, credits, state):
+        newCourse = Course(idCourse, nameCourse, prerequisites,
+                           optional, semester, credits, state)
+        # Verify if the course exist in the system
+        for course in self.coursesData:
+            if newCourse.idCourse == course.idCourse:
+                self.coursesData.remove(course)
+        self.coursesData.append(newCourse)
+        return newCourse

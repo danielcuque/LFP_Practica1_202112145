@@ -25,5 +25,47 @@ class Course():
         self.credits = credits
         self.currentState = currentState
 
+    def getIdCourse(self):
+        return self.idCourse
+
+    def getName(self):
+        return self.name
+
+    def getIdCoursesRequired(self):
+        return self.idCoursesRequired
+
+    def getIsRequired(self):
+        return self.isRequired
+
+    def getSemester(self):
+        return self.semester
+
+    def getCredits(self):
+        return self.credits
+
+    def getCurrentState(self):
+        return self.currentState
+
+    def setIdCourse(self, idCourse):
+        self.idCourse = idCourse
+
+    def setName(self, name):
+        self.name = name
+
+    def setCurrentState(self, currentState):
+        self.currentState = currentState
+
+    def setCredits(self, credits):
+        self.credits = credits
+
+    def setSemester(self, semester):
+        self.semester = semester
+
+    def setIdCoursesRequired(self, idCoursesRequired):
+        self.idCoursesRequired = idCoursesRequired
+
+    def setIsRequired(self, isRequired):
+        self.isRequired = isRequired
+
     def getCourse(self):
         return self.idCourse + "," + self.name + "," + self.idCoursesRequired + "," + self.isRequired + "," + self.semester + "," + self.credits + "," + self.currentState

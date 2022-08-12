@@ -13,19 +13,19 @@ class ListCourse(ctk.CTkFrame):
 
         self.master = master
         data = CoursesByStudent()
-        self.courses = data.coursesData
+        self.courses = data.getCoursesData()
 
         #  configure grid layout (2x1)
         self.rowconfigure(1, weight=1)
         self.columnconfigure(0, weight=1)
 
         self.titleLabel = ctk.CTkLabel(master=self,
-                                         text="Listado de cursos",
-                                         height=50,
-                                         corner_radius=6,
-                                         text_font=("Roboto Medium", -25), text_color="white",
-                                         fg_color=("white", "gray38"),
-                                         justify=LEFT)
+                                       text="Listado de cursos",
+                                       height=50,
+                                       corner_radius=6,
+                                       text_font=("Roboto Medium", -25), text_color="white",
+                                       fg_color=("white", "gray38"),
+                                       justify=LEFT)
         self.titleLabel.grid(
             column=0, row=0, sticky="nwe", padx=15, pady=15)
 
