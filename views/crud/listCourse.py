@@ -83,25 +83,15 @@ class ListCourse(ctk.CTkFrame):
 
     @staticmethod
     def listCourse(self, tree, courses):
-        # List of options to elegibility of the course
-        elegibilityCourse = {
-            0: "Obligatorio",
-            1: "Opcional"
-        }
-        # List of options to state of the course
-        stateCourse = {
-            0: "Aprobado",
-            1: "Cursando",
-            - 1: "Pendiente"
-        }
+        listOfElegibility = CoursesByStudent()
 
         global count
         count = 0
         for course in courses:
             if count % 2 == 0:
                 tree.insert("", "end", values=(course.idCourse, course.name, course.idCoursesRequired,
-                                               elegibilityCourse[course.isRequired], course.semester, course.credits, stateCourse[course.currentState]), tags=("even"))
+                                               listOfElegibility.elegibilityCourse[course.isRequired], course.semester, course.credits, listOfElegibility.stateCourse[course.currentState]), tags=("even"))
             else:
                 tree.insert("", "end", values=(course.idCourse, course.name, course.idCoursesRequired,
-                                               elegibilityCourse[course.isRequired], course.semester, course.credits, stateCourse[course.currentState]), tags=("odd"))
+                                               listOfElegibility.elegibilityCourse[course.isRequired], course.semester, course.credits, listOfElegibility.stateCourse[course.currentState]), tags=("odd"))
             count += 1

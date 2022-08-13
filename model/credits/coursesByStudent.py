@@ -14,6 +14,31 @@ class CoursesByStudent:
 
     coursesData = []
 
+    # Keys for the dictionary of the elective courses String
+    elegibilityCourseStr = {
+        "Obligatorio": "0",
+        "Opcional": "1"
+    }
+    # List of options to state of the course
+    stateCourseStr = {
+        "Aprobado": "0",
+        "Cursando": "1",
+        "Pendiente": "-1"
+    }
+
+    # List of options to elective of the course int
+    # List of options to elegibility of the course
+    elegibilityCourse = {
+        0: "Obligatorio",
+        1: "Opcional"
+    }
+    # List of options to state of the course
+    stateCourse = {
+        0: "Aprobado",
+        1: "Cursando",
+        - 1: "Pendiente"
+    }
+
     # Regex to validate the fields
     allowValuesForId = re.compile(r'^[0-9]{1,4}$')
     allowValuesForName = re.compile(
@@ -105,18 +130,8 @@ class CoursesByStudent:
         return self.coursesData
 
     def createCourseByForm(self, idCourse, nameCourse, prerequisites, semester, optional,  credits, state):
-        elegibilityCourse = {
-            "Obligatorio": "0",
-            "Opcional": "1"
-        }
-        # List of options to state of the course
-        stateCourse = {
-            "Aprobado": "0",
-            "Cursando": "1",
-            "Pendiente": "-1"
-        }
-        optional = elegibilityCourse[optional]
-        state = stateCourse[state]
+        optional = self.elegibilityCourse[optional]
+        state = self.stateCourse[state]
 
         self.validateFields(idCourse, nameCourse, prerequisites,
                             optional, semester, credits, state)

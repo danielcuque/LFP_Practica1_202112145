@@ -203,17 +203,6 @@ class FormForCourse(ctk.CTkFrame):
         self.optionality.set("")
 
     def search_course_by_id(self):
-        # List of options to elegibility of the course
-        elegibilityCourse = {
-            0: "Obligatorio",
-            1: "Opcional"
-        }
-        # List of options to state of the course
-        stateCourse = {
-            0: "Aprobado",
-            1: "Cursando",
-            - 1: "Pendiente"
-        }
 
         id_course_info = self.id_course.get()
         if id_course_info != "":
@@ -226,9 +215,9 @@ class FormForCourse(ctk.CTkFrame):
                     self.semester.set(course.getSemester())
                     self.credits.set(course.getCredits())
                     self.optionality.set(
-                        elegibilityCourse[course.getIsRequired()])
+                        data.elegibilityCourse[course.getIsRequired()])
                     self.current_state.set(
-                        stateCourse[course.getCurrentState()])
+                        data.stateCourse[course.getCurrentState()])
                     self.enable_fields()
                 else:
                     messagebox.showerror("Error", "No se encontró el curso")
