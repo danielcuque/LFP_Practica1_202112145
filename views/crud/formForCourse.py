@@ -205,9 +205,9 @@ class FormForCourse(ctk.CTkFrame):
     def search_course_by_id(self):
 
         id_course_info = self.id_course.get()
+        data = CoursesByStudent()
         if id_course_info != "":
-            if re.match(r'^[0-9]{1,10}$', id_course_info):
-                data = CoursesByStudent()
+            if re.match(data.allowValuesForId, id_course_info):
                 course = data.getCourseById(int(id_course_info))
                 if course is not None:
                     self.name_course.set(course.getName())

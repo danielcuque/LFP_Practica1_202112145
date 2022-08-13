@@ -197,7 +197,7 @@ class CoursesByStudent:
 
     def deleteCourse(self, idCourse):
         for course in self.coursesData:
-            if course.idCourse == idCourse:
+            if course.idCourse == int(idCourse):
                 self.coursesData.remove(course)
                 return True
         return False
