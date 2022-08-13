@@ -1,6 +1,7 @@
 from tkinter import messagebox
 import customtkinter as ctk
 from tkinter import *
+import re
 
 
 from model.credits.coursesByStudent import CoursesByStudent
@@ -12,10 +13,12 @@ class FormForCourse(ctk.CTkFrame):
 
         self.master = master
 
-        data = CoursesByStudent()
-        self.courses = data.coursesData
+        self.data = CoursesByStudent()
+        self.courses = self.data.coursesData
 
         #  configure grid layout (2x1)
+        # Row 1 = Title
+        # Row 2 = Frame with fields
         self.rowconfigure(1, weight=1)
         self.columnconfigure(0, weight=1)
 
@@ -27,6 +30,8 @@ class FormForCourse(ctk.CTkFrame):
         self.optionality = ctk.StringVar()
         self.credits = ctk.StringVar()
         self.current_state = ctk.StringVar()
+
+        # Validations for the fields
 
         self.titleLabel = ctk.CTkLabel(master=self,
                                        text=title,
@@ -43,7 +48,10 @@ class FormForCourse(ctk.CTkFrame):
 
         # self.frame_info = FormForCourse(self)
         self.frame_info.grid(column=0, row=1, sticky="nswe", padx=15, pady=15)
+
+        # Create a grid of (7x3) to store the fields
         self.frame_info.grid_columnconfigure((0, 1), weight=1)
+        self.frame_info.grid_columnconfigure(2, weight=0)
         self.frame_info.grid_rowconfigure(
             (0, 1, 2, 3, 4, 5, 6, 7), weight=1)
 
@@ -87,7 +95,7 @@ class FormForCourse(ctk.CTkFrame):
         self.creditsLabel.grid(
             column=0, row=5, sticky="nwe", padx=15, pady=15)
 
-        # Create a label and Entry for the state field
+        # Create a label for the state field
         self.stateLabel = ctk.CTkLabel(master=self.frame_info, text="Estado:", width=10, height=1, corner_radius=6,
                                        text_font=("Roboto Medium", -15), text_color="white",
                                        justify=LEFT)
@@ -161,8 +169,13 @@ class FormForCourse(ctk.CTkFrame):
             self.button_add.grid(
                 column=1, row=7, sticky="nwe", padx=(0, 55), pady=(5, 0))
         else:
-            if data.getLengthCoursesData() > 0:
-                self.enable_fields()
+            self.disable_fields()
+            if self.data.getLengthCoursesData() > 0:
+                self.button_searchById = ctk.CTkButton(master=self.frame_info, text="Buscar por código", width=10, height=1, corner_radius=6,
+                                                       command=self.search_course_by_id,
+                                                       text_font=("Roboto Medium", -15), text_color="white")
+                self.button_searchById.grid(
+                    column=3, row=0, sticky="nwe", padx=(0, 10), pady=(5, 0))
                 self.button_update = ctk.CTkButton(master=self.frame_info, text="Actualizar", width=10, height=1, corner_radius=6,
                                                    command=self.update_course,
                                                    text_font=("Roboto Medium", -15), text_color="white",
@@ -175,7 +188,6 @@ class FormForCourse(ctk.CTkFrame):
                                                      justify=LEFT)
                 self.labelInformation.grid(
                     column=1, row=7, sticky="nwe", padx=(0, 55), pady=(5, 0))
-                self.disable_fields()
 
         # Set initial values for OptionMenus
         self.currentStateMenu.set("Pendiente")
@@ -190,8 +202,44 @@ class FormForCourse(ctk.CTkFrame):
         self.current_state.set("")
         self.optionality.set("")
 
+    def search_course_by_id(self):
+        # List of options to elegibility of the course
+        elegibilityCourse = {
+            0: "Obligatorio",
+            1: "Opcional"
+        }
+        # List of options to state of the course
+        stateCourse = {
+            0: "Aprobado",
+            1: "Cursando",
+            - 1: "Pendiente"
+        }
+
+        id_course_info = self.id_course.get()
+        if id_course_info != "":
+            if re.match(r'^[0-9]{1,10}$', id_course_info):
+                data = CoursesByStudent()
+                course = data.getCourseById(int(id_course_info))
+                if course is not None:
+                    self.name_course.set(course.getName())
+                    self.pre_course.set(course.getIdCoursesRequired())
+                    self.semester.set(course.getSemester())
+                    self.credits.set(course.getCredits())
+                    self.optionality.set(
+                        elegibilityCourse[course.getIsRequired()])
+                    self.current_state.set(
+                        stateCourse[course.getCurrentState()])
+                    self.enable_fields()
+                else:
+                    messagebox.showerror("Error", "No se encontró el curso")
+            else:
+                messagebox.showerror(
+                    "Error", "El código debe ser un número entero")
+        else:
+            messagebox.showerror("Error", "Ingrese un código")
+
     def disable_fields(self):
-        self.idText.configure(state="disabled")
+        # self.idText.configure(state="disabled")
         self.nameText.configure(state="disabled")
         self.preCourseText.configure(state="disabled")
         self.semesterText.configure(state="disabled")
@@ -200,7 +248,7 @@ class FormForCourse(ctk.CTkFrame):
         self.optionalityMenu.configure(state="disabled")
 
     def enable_fields(self):
-        self.idText.configure(state="normal")
+        # self.idText.configure(state="normal")
         self.nameText.configure(state="normal")
         self.preCourseText.configure(state="normal")
         self.semesterText.configure(state="normal")

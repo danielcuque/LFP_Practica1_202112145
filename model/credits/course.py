@@ -46,9 +46,6 @@ class Course():
     def getCurrentState(self):
         return self.currentState
 
-    def setIdCourse(self, idCourse):
-        self.idCourse = idCourse
-
     def setName(self, name):
         self.name = name
 
