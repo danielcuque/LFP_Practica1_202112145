@@ -15,7 +15,7 @@ class CoursesByStudent:
     coursesData = []
 
     # Regex to validate the fields
-    allowValuesForId = re.compile(r'^[0-9]{3,4}$')
+    allowValuesForId = re.compile(r'^[0-9]{1,4}$')
     allowValuesForName = re.compile(
         r'^[0-9A-Za-z À-ÿ\u00f1\u00d1]+$')
     allowValuesForPrecourses = re.compile(r'(\d*;?)*')
@@ -28,6 +28,7 @@ class CoursesByStudent:
     count = 1
 
     def validateFields(self, idCourse, nameCourse, prerequisites, optional, semester, credits, state):
+        self.errorReport = ""
         if idCourse is None or not re.fullmatch(self.allowValuesForId, idCourse.strip()):
             self.errorReport += "Error en la línea " + \
                 str(self.count) + \
@@ -81,13 +82,12 @@ class CoursesByStudent:
                         self.validateFields(verifyCourse[0], verifyCourse[1], verifyCourse[2],
                                             verifyCourse[3], verifyCourse[4], verifyCourse[5], verifyCourse[6])
                         if self.errorReport == "":
-
-                            newCourse = Course(int(verifyCourse[0]), verifyCourse[1], verifyCourse[2],
-                                               int(verifyCourse[3]), verifyCourse[4], int(verifyCourse[5]), int(verifyCourse[6]))
                             # Verify if the course exist in the system
                             for course in self.coursesData:
-                                if newCourse.idCourse == course.idCourse:
+                                if self.getCourseById(verifyCourse[0]) is not None:
                                     self.coursesData.remove(course)
+                            newCourse = Course(int(verifyCourse[0]), verifyCourse[1], verifyCourse[2],
+                                               int(verifyCourse[3]), verifyCourse[4], int(verifyCourse[5]), int(verifyCourse[6]))
                             self.coursesData.append(newCourse)
                     else:
                         self.errorReport += "Error en la línea " + \
@@ -118,18 +118,16 @@ class CoursesByStudent:
         optional = elegibilityCourse[optional]
         state = stateCourse[state]
 
-        print(self.coursesData, "1")
-
         self.validateFields(idCourse, nameCourse, prerequisites,
                             optional, semester, credits, state)
         if self.errorReport == "":
-            newCourse = Course(int(idCourse), nameCourse, prerequisites, int(
+            idCourse = int(idCourse)
+            newCourse = Course(idCourse, nameCourse, prerequisites, int(
                 optional), semester, int(credits), int(state))
             # Verify if the course exist in the system
             for course in self.coursesData:
-                if newCourse.idCourse == course.idCourse:
+                if self.getCourseById(idCourse) is not None:
                     self.coursesData.remove(course)
-            print(self.coursesData, "1")
             self.coursesData.append(newCourse)
             return self.errorReport
         else:
@@ -141,7 +139,10 @@ class CoursesByStudent:
                 return course
         return None
 
-    def updateCourse(self, idCourse, nameCourse, prerequisites, optional, semester, credits, state):
+    def getLengthCoursesData(self):
+        return len(self.coursesData)
+
+    def updateCourse(self, idCourse, nameCourse, prerequisites, semester, optional,  credits, state):
         elegibilityCourse = {
             "Obligatorio": "0",
             "Opcional": "1"
@@ -152,33 +153,32 @@ class CoursesByStudent:
             "Cursando": "1",
             "Pendiente": "-1"
         }
+
         optional = elegibilityCourse[optional]
         state = stateCourse[state]
 
         self.validateFields(idCourse, nameCourse, prerequisites,
                             optional, semester, credits, state)
         if self.errorReport == "":
-            for course in self.coursesData:
-                if course.idCourse == idCourse:
-                    course.nameCourse = nameCourse
-                    course.prerequisites = prerequisites
-                    course.optional = int(optional)
-                    course.semester = semester
-                    course.credits = int(credits)
-                    course.state = int(state)
-                    return self.errorReport
+            idCourse = int(idCourse)
+            if self.getCourseById(idCourse) is not None:
+                for course in self.coursesData:
+                    if course.idCourse == idCourse:
+                        course.setName(nameCourse)
+                        course.setIdCoursesRequired(prerequisites)
+                        course.setIsRequired(int(optional))
+                        course.setSemester(int(semester))
+                        course.setCredits(int(credits))
+                        course.setCurrentState(int(state))
+
+                        return self.errorReport
+            else:
+                self.errorReport += "Error en la línea " + \
+                    str(self.count) + ": " + \
+                    " - El curso no existe\n"
+                return self.errorReport
         else:
             return self.errorReport
-        for course in self.coursesData:
-            if course.idCourse == idCourse:
-                course.nameCourse = nameCourse
-                course.prerequisites = prerequisites
-                course.optional = optional
-                course.semester = semester
-                course.credits = credits
-                course.state = state
-                return course
-        return None
 
     def deleteCourse(self, idCourse):
         for course in self.coursesData:

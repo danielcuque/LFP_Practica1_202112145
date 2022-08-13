@@ -29,7 +29,7 @@ class ListCourse(ctk.CTkFrame):
         self.titleLabel.grid(
             column=0, row=0, sticky="nwe", padx=15, pady=15)
 
-        if (len(self.courses) > 0):
+        if (data.getLengthCoursesData() > 0):
 
             self.tree = ttk.Treeview(self)
 
@@ -98,7 +98,6 @@ class ListCourse(ctk.CTkFrame):
         global count
         count = 0
         for course in courses:
-
             if count % 2 == 0:
                 tree.insert("", "end", values=(course.idCourse, course.name, course.idCoursesRequired,
                                                elegibilityCourse[course.isRequired], course.semester, course.credits, stateCourse[course.currentState]), tags=("even"))

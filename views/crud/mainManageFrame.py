@@ -6,8 +6,7 @@ from model.helpers.positionWindow import PositionWindow
 
 # Frames
 from views.crud.listCourse import ListCourse
-from views.crud.createCourse import CreateCourse
-from views.crud.updateCourse import UpdateCourse
+from views.crud.formForCourse import FormForCourse
 from views.crud.deleteCourse import DeleteCourse
 
 
@@ -67,13 +66,13 @@ class mainManageFrame(ctk.CTk):
         # Create course button
         self.createCourseButton = ctk.CTkButton(master=self.frame_left,
                                                 text="Crear curso",
-                                                command=lambda: self.changeFrame(CreateCourse(self)))
+                                                command=lambda: self.changeFrame(FormForCourse(self, "Crear curso")))
         self.createCourseButton.grid(row=4, column=0, pady=10, padx=20)
 
         # Update course button
         self.updateCourseButton = ctk.CTkButton(master=self.frame_left,
                                                 text="Actualizar curso",
-                                                command=lambda: self.changeFrame(UpdateCourse(self)))
+                                                command=lambda: self.changeFrame(FormForCourse(self, "Actualizar curso")))
         self.updateCourseButton.grid(row=5, column=0, pady=10, padx=20)
 
         # Delete course button
