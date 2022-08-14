@@ -49,7 +49,7 @@ class FormForCourse(ctk.CTkFrame):
         # self.frame_info = FormForCourse(self)
         self.frame_info.grid(column=0, row=1, sticky="nswe", padx=15, pady=15)
 
-        # Create a grid of (7x3) to store the fields
+        # Create a grid of (8x3) to store the fields
         self.frame_info.grid_columnconfigure((0, 1), weight=1)
         self.frame_info.grid_columnconfigure(2, weight=0)
         self.frame_info.grid_rowconfigure(

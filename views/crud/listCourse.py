@@ -68,7 +68,7 @@ class ListCourse(ctk.CTkFrame):
             self.tree.tag_configure("even", background="lightgray")
 
             # Insert the data into the treeview
-            self.listCourse(self, self.tree, self.courses)
+            self.listCourse(self.tree, self.courses)
 
             # Pack the treeview
             self.tree.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
@@ -82,7 +82,7 @@ class ListCourse(ctk.CTkFrame):
                 column=0, row=1, sticky="nswe", padx=15, pady=5)
 
     @staticmethod
-    def listCourse(self, tree, courses):
+    def listCourse(tree, courses):
         listOfElegibility = CoursesByStudent()
 
         global count

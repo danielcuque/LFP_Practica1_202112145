@@ -7,6 +7,7 @@ from model.credits.coursesByStudent import CoursesByStudent
 
 # Import windows
 from views.crud.mainManageFrame import mainManageFrame
+from views.credits.countCredits import CountCredits
 
 
 class MainMenu(ctk.CTk):
@@ -86,7 +87,9 @@ class MainMenu(ctk.CTk):
         mC.mainloop()
 
     def countCredits(self):
-        pass
+        self.destroy()
+        cC = CountCredits(self)
+        cC.mainloop()
 
     def exit(self):
         self.destroy()

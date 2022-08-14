@@ -4,6 +4,11 @@ import re  # Regular expression
 
 class CoursesByStudent:
 
+    coursesData = []
+
+    def __init__(self):
+        pass
+
     # 0. The Id will be int
     # 1. The name will be string
     # 2. The prerequisites will be a list of strings
@@ -11,8 +16,6 @@ class CoursesByStudent:
     # 4. The semester will be string
     # 5. The credits will be int
     # 6. The state will be int (-1, 0, 1)
-
-    coursesData = []
 
     # Keys for the dictionary of the elective courses String
     elegibilityCourseStr = {
@@ -107,6 +110,8 @@ class CoursesByStudent:
                     ": El valor - " + \
                     credits + \
                     " - no es válido para Créditos\n"
+
+    '''Read the file and create the courses'''
 
     def uploadCourses(self, routeFile):
         if(routeFile == ""):
@@ -220,3 +225,42 @@ class CoursesByStudent:
                 self.coursesData.remove(course)
                 return True
         return False
+
+    '''Create the functions to count credits'''
+
+    def countApprovedCredits(self):
+        count = 0
+        for course in self.coursesData:
+            if course.getCurrentState() == 0:
+                count += course.getCredits()
+        return count
+
+    def countCurrentCredits(self):
+        count = 0
+        for course in self.coursesData:
+            if course.getCurrentState() == 1:
+                count += course.getCredits()
+        return count
+
+    def countPendingCredits(self):
+        count = 0
+        for course in self.coursesData:
+            if course.getCurrentState() == -1:
+                if course.getIsRequired() == 1:
+                    count += course.getCredits()
+        return count
+
+    def countCreditsAtCurrentSemester(self, semester):
+        count = 0
+        for course in self.coursesData:
+            if course.getSemester() <= semester:
+                if course.getCurrentState() == 1:
+                    count += course.getCredits()
+        return count
+
+    def countCreditsBySemester(self, semester):
+        count = 0
+        for course in self.coursesData:
+            if course.getSemester() == semester:
+                count += course.getCredits()
+        return count
