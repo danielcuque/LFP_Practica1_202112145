@@ -254,8 +254,7 @@ class CoursesByStudent:
         count = 0
         for course in self.coursesData:
             if course.getSemester() <= semester:
-                if course.getCurrentState() == 1:
-                    count += course.getCredits()
+                count += course.getCredits()
         return count
 
     def countCreditsBySemester(self, semester):

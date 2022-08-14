@@ -8,7 +8,7 @@ from model.credits.coursesByStudent import CoursesByStudent
 
 class CountCredits(ctk.CTk):
     # Size of the window
-    APP_WIDTH = 750
+    APP_WIDTH = 850
     APP_HEIGHT = 520
 
     def __init__(self, *args, **kwargs):
@@ -23,6 +23,10 @@ class CountCredits(ctk.CTk):
         self.geometry(
             PositionWindow().positionWindow(self.winfo_screenwidth(
             ), self.winfo_screenheight(), self.APP_WIDTH, self.APP_HEIGHT))
+
+        # Create a variable to store the spinbox value
+        self.pickSemesterToObligatoryCredits_info = StringVar()
+        self.pickCurrentSemester_info = StringVar()
         # Create a custom grid layot (2x1)
         self.rowconfigure(1, weight=1)
         self.columnconfigure(0, weight=1)
@@ -82,7 +86,8 @@ class CountCredits(ctk.CTk):
                                           height=30,
                                           corner_radius=6,
                                           text_font=("Roboto Medium", -20), text_color="white",
-                                          justify=LEFT)
+                                          justify=LEFT,
+                                          anchor=W)
         self.approvalLabel.grid(
             column=0, row=0, sticky="nwe", padx=15, pady=15)
 
@@ -91,7 +96,8 @@ class CountCredits(ctk.CTk):
                                           height=30,
                                           corner_radius=6,
                                           text_font=("Roboto Medium", -20), text_color="white",
-                                          justify=LEFT)
+                                          justify=LEFT,
+                                          anchor=W)
         self.studyingLabel.grid(
             column=0, row=1, sticky="nwe", padx=15, pady=15)
 
@@ -100,7 +106,8 @@ class CountCredits(ctk.CTk):
                                          height=30,
                                          corner_radius=6,
                                          text_font=("Roboto Medium", -20), text_color="white",
-                                         justify=LEFT)
+                                         justify=LEFT,
+                                         anchor=W)
         self.pendingLabel.grid(
             column=0, row=2, sticky="nwe", padx=15, pady=15)
 
@@ -109,7 +116,8 @@ class CountCredits(ctk.CTk):
                                                    height=30,
                                                    corner_radius=6,
                                                    text_font=("Roboto Medium", -20), text_color="white",
-                                                   justify=LEFT)
+                                                   justify=LEFT,
+                                                   anchor=W)
         self.obligatoryCreditsLabel.grid(
             column=0, row=3, sticky="nwe", padx=15, pady=15)
 
@@ -118,7 +126,8 @@ class CountCredits(ctk.CTk):
                                                  height=30,
                                                  corner_radius=6,
                                                  text_font=("Roboto Medium", -20), text_color="white",
-                                                 justify=LEFT)
+                                                 justify=LEFT,
+                                                 anchor=W)
         self.selectSemesterLabel1.grid(
             column=0, row=4, sticky="nwe", padx=15, pady=15)
 
@@ -127,7 +136,8 @@ class CountCredits(ctk.CTk):
                                                           height=30,
                                                           corner_radius=6,
                                                           text_font=("Roboto Medium", -20), text_color="white",
-                                                          justify=LEFT)
+                                                          justify=LEFT,
+                                                          anchor=W)
         self.creditsOfCurrentSemesterLabel.grid(
             column=0, row=5, sticky="nwe", padx=15, pady=15)
 
@@ -136,9 +146,10 @@ class CountCredits(ctk.CTk):
                                                  height=30,
                                                  corner_radius=6,
                                                  text_font=("Roboto Medium", -20), text_color="white",
-                                                 justify=LEFT)
+                                                 justify=LEFT,
+                                                 anchor=W)
         self.selectSemesterLabel2.grid(
-            column=0, row=4, sticky="nwe", padx=15, pady=15)
+            column=0, row=6, sticky="nwe", padx=15, pady=15)
 
         '''Create the labels of the second column to show the data'''
         self.approvalDataLabel = ctk.CTkLabel(master=self.frame_info,
@@ -146,7 +157,8 @@ class CountCredits(ctk.CTk):
                                               height=30,
                                               corner_radius=6,
                                               text_font=("Roboto Medium", -20), text_color="white",
-                                              justify=LEFT)
+                                              justify=LEFT,
+                                              anchor=W)
         self.approvalDataLabel.grid(
             column=1, row=0, sticky="nwe", padx=15, pady=15)
 
@@ -155,7 +167,8 @@ class CountCredits(ctk.CTk):
                                               height=30,
                                               corner_radius=6,
                                               text_font=("Roboto Medium", -20), text_color="white",
-                                              justify=LEFT)
+                                              justify=LEFT,
+                                              anchor=W)
         self.studyingDataLabel.grid(
             column=1, row=1, sticky="nwe", padx=15, pady=15)
 
@@ -164,7 +177,8 @@ class CountCredits(ctk.CTk):
                                              height=30,
                                              corner_radius=6,
                                              text_font=("Roboto Medium", -20), text_color="white",
-                                             justify=LEFT)
+                                             justify=LEFT,
+                                             anchor=W)
         self.pendingDataLabel.grid(
             column=1, row=2, sticky="nwe", padx=15, pady=15)
 
@@ -173,13 +187,16 @@ class CountCredits(ctk.CTk):
                                                        height=30,
                                                        corner_radius=6,
                                                        text_font=("Roboto Medium", -20), text_color="white",
-                                                       justify=LEFT)
+                                                       justify=LEFT,
+                                                       anchor=W)
         self.obligatoryCreditsDataLabel.grid(
             column=1, row=3, sticky="nwe", padx=15, pady=15)
 
         self.pickSemesterToObligatoryCredits = ttk.Spinbox(
             master=self.frame_info,
+            textvariable=self.pickSemesterToObligatoryCredits_info,
             from_=1, to=12, increment=1, state="readonly")
+
         self.pickSemesterToObligatoryCredits.grid(
             column=1, row=4, sticky="nwe", padx=15, pady=15)
 
@@ -188,12 +205,14 @@ class CountCredits(ctk.CTk):
                                                 height=30,
                                                 corner_radius=6,
                                                 text_font=("Roboto Medium", -20), text_color="white",
-                                                justify=LEFT)
+                                                justify=LEFT,
+                                                anchor=W)
         self.currentCreditsLabel.grid(
             column=1, row=5, sticky="nwe", padx=15, pady=15)
 
         self.pickCurrentSemester = ttk.Spinbox(master=self.frame_info,
-                                               from_=10, to=30, increment=1, state="readonly")
+                                               textvariable=self.pickCurrentSemester_info,
+                                               from_=1, to=12, increment=1, state="readonly")
         self.pickCurrentSemester.grid(
             column=1, row=6, sticky="nwe", padx=15, pady=15)
 
@@ -212,9 +231,13 @@ class CountCredits(ctk.CTk):
                                                   height=30,
                                                   corner_radius=6,
                                                   text_font=("Roboto Medium", -20), text_color="white",
-                                                  command=self.getDataAtCurrentSemester)
+                                                  command=self.getDataBySemester)
         self.currentCreditsButton.grid(
             column=2, row=6, sticky="nwe", padx=15, pady=15)
+
+        # Set data
+        self.pickCurrentSemester_info.set("1")
+        self.pickSemesterToObligatoryCredits_info.set("1")
 
     def getDataAtCurrentSemester(self):
         creditsAtSemester = CoursesByStudent().countCreditsAtCurrentSemester(
