@@ -2,7 +2,7 @@
 # Model class for courses
 class Course():
 
-    idCourse = ""
+    idCourse = 0
     name = ""
 
     # The ID courses will be separated by a ;

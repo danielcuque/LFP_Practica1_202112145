@@ -93,6 +93,20 @@ class CoursesByStudent:
                 ": El valor - " + \
                 state + \
                 " - no es válido para Estado\n"
+        if re.fullmatch(self.allowValuesForSemesterAndCredits, semester.strip()):
+            if int(semester) > 12 or int(semester) < 1:
+                self.errorReport += "Error en la línea " + \
+                    str(self.count) + \
+                    ": El valor - " + \
+                    semester + \
+                    " - no es válido para Semestre\n"
+        if re.fullmatch(self.allowValuesForSemesterAndCredits, credits.strip()):
+            if int(credits) > 10 or int(credits) < 1:
+                self.errorReport += "Error en la línea " + \
+                    str(self.count) + \
+                    ": El valor - " + \
+                    credits + \
+                    " - no es válido para Créditos\n"
 
     def uploadCourses(self, routeFile):
         if(routeFile == ""):
@@ -107,13 +121,18 @@ class CoursesByStudent:
                         self.validateFields(verifyCourse[0], verifyCourse[1], verifyCourse[2],
                                             verifyCourse[3], verifyCourse[4], verifyCourse[5], verifyCourse[6])
                         if self.errorReport == "":
+                            newCourse = Course(int(verifyCourse[0]), verifyCourse[1], verifyCourse[2],
+                                               int(verifyCourse[3]), int(verifyCourse[4]), int(verifyCourse[5]), int(verifyCourse[6]))
                             # Verify if the course exist in the system
                             for course in self.coursesData:
-                                if self.getCourseById(verifyCourse[0]) is not None:
+                                if newCourse.idCourse == course.idCourse:
                                     self.coursesData.remove(course)
-                            newCourse = Course(int(verifyCourse[0]), verifyCourse[1], verifyCourse[2],
-                                               int(verifyCourse[3]), verifyCourse[4], int(verifyCourse[5]), int(verifyCourse[6]))
                             self.coursesData.append(newCourse)
+                        else:
+                            self.errorReport += "Error en la línea " + \
+                                str(self.count) + \
+                                ": " + \
+                                "Campos erróneos\n"
                     else:
                         self.errorReport += "Error en la línea " + \
                             str(self.count) + ": " + \
