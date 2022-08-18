@@ -8,6 +8,7 @@ from model.helpers.positionWindow import PositionWindow
 from views.crud.listCourse import ListCourse
 from views.crud.formForCourse import FormForCourse
 from views.crud.deleteCourse import DeleteCourse
+from views.crud.listCourseById import ListCourseById
 
 
 class mainManageFrame(ctk.CTk):
@@ -46,9 +47,9 @@ class mainManageFrame(ctk.CTk):
         # configure grid layout (1x11)
         # empty row with minsize as spacing
         self.frame_left.grid_rowconfigure(0, minsize=10)
-        self.frame_left.grid_rowconfigure(7, weight=1)  # empty row as spacing
+        self.frame_left.grid_rowconfigure(8, weight=1)  # empty row as spacing
         # empty row with minsize as spacing
-        self.frame_left.grid_rowconfigure(8, minsize=20)
+        self.frame_left.grid_rowconfigure(9, minsize=20)
         # empty row with minsize as spacing
         self.frame_left.grid_rowconfigure(11, minsize=10)
 
@@ -81,6 +82,11 @@ class mainManageFrame(ctk.CTk):
                                                 command=lambda: self.changeFrame(DeleteCourse(self)))
         self.deleteCourseButton.grid(row=6, column=0, pady=10, padx=20)
 
+        self.listByIdButton = ctk.CTkButton(master=self.frame_left,
+                                            text="Mostrar por ID",
+                                            command=lambda: self.changeFrame(ListCourseById(self)))
+        self.listByIdButton.grid(row=7, column=0, pady=10, padx=20)
+
         # Back to menu button
         self.menuButton = ctk.CTkButton(master=self.frame_left,
                                         text="Regresar",
@@ -89,7 +95,7 @@ class mainManageFrame(ctk.CTk):
 
         # Apparence mode button
         self.appearanceLabel = ctk.CTkLabel(
-            master=self.frame_left, text="Mode de apariencia:")
+            master=self.frame_left, text="Modo de apariencia:")
         self.appearanceLabel.grid(row=9, column=0, pady=0, padx=20, sticky="w")
 
         self.optionmenu_1 = ctk.CTkOptionMenu(master=self.frame_left,

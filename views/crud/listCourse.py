@@ -1,4 +1,3 @@
-from tkinter import font
 import customtkinter as ctk
 from tkinter import *
 from tkinter import ttk

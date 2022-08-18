@@ -117,7 +117,7 @@ class CoursesByStudent:
         if(routeFile == ""):
             self.errorReport = "No se seleccionó ningun archivo"
         else:
-            file = open(routeFile, "r", encoding="utf8")
+            file = open(routeFile, "r", encoding="utf8", errors='ignore')
             for line in file:
                 if(line != ""):
                     verifyCourse = line.split(",")

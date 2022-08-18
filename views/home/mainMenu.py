@@ -74,7 +74,7 @@ class MainMenu(ctk.CTk):
     def uploadFile(self):
         fileName = filedialog.askopenfilename(
             initialdir="/", title="Seleccionar archivo",
-            filetypes=(("Archivos de texto", "*.LFP"), ("Todos los archivos", "*.*")))
+            filetypes=(("Archivos de texto", ("*.LFP", ".csv")), ("Todos los archivos", "*.*")))
         uploadInfo = CoursesByStudent().uploadCourses(fileName)
         if(len(uploadInfo) > 0):
             messagebox.showerror("Información", uploadInfo)
