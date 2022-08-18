@@ -252,6 +252,7 @@ class CountCredits(ctk.CTk):
         self.currentCreditsLabel.configure(text=creditsBySemester)
 
     def back(self):
-        self.destroy()
         from views.home.mainMenu import MainMenu
-        MainMenu()
+        self.destroy()
+        app = MainMenu()
+        app.mainloop()

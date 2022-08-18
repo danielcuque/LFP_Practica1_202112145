@@ -121,4 +121,5 @@ class mainManageFrame(ctk.CTk):
     def go_to_menu(self):
         self.destroy()
         from views.home.mainMenu import MainMenu
-        MainMenu()
+        app = MainMenu()
+        app.mainloop()
