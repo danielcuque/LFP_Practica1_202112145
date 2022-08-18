@@ -19,8 +19,8 @@ class CoursesByStudent:
 
     # Keys for the dictionary of the elective courses String
     elegibilityCourseStr = {
-        "Obligatorio": "0",
-        "Opcional": "1"
+        "Obligatorio": "1",
+        "Opcional": "0"
     }
     # List of options to state of the course
     stateCourseStr = {
@@ -32,8 +32,8 @@ class CoursesByStudent:
     # List of options to elective of the course int
     # List of options to elegibility of the course
     elegibilityCourse = {
-        0: "Obligatorio",
-        1: "Opcional"
+        1: "Obligatorio",
+        0: "Opcional"
     }
     # List of options to state of the course
     stateCourse = {
@@ -45,7 +45,7 @@ class CoursesByStudent:
     # Regex to validate the fields
     allowValuesForId = re.compile(r'^[0-9]{1,4}$')
     allowValuesForName = re.compile(
-        r'^[0-9A-Za-z À-ÿ\u00f1\u00d1]+$')
+        r'.+')  # Allow only letters and numbers and spaces
     allowValuesForPrecourses = re.compile(r'(\d*;?)*')
     allowValuesForOptionals = re.compile(r'(0|1)')
     allowValuesForSemesterAndCredits = re.compile(r'^[0-9]{1,2}$')
@@ -56,39 +56,44 @@ class CoursesByStudent:
     count = 1
 
     def validateFields(self, idCourse, nameCourse, prerequisites, optional, semester, credits, state):
-        self.errorReport = ""
         if idCourse is None or not re.fullmatch(self.allowValuesForId, idCourse.strip()):
             self.errorReport += "Error en la línea " + \
                 str(self.count) + \
                 ": El valor - " + \
                 idCourse + " - no es válido para Id\n"
+            return False
         elif nameCourse is None or not re.fullmatch(self.allowValuesForName, nameCourse.strip()):
             self.errorReport += "Error en la línea " + \
                 str(self.count) + \
                 ": El valor - " + \
                 nameCourse + \
                 " - no es válido para Curso\n"
+            return False
         elif prerequisites is None or not re.fullmatch(self.allowValuesForPrecourses, prerequisites.strip()):
             self.errorReport += "Error en la línea " + \
                 str(self.count) + \
                 ": El valor - " + \
                 prerequisites + " - no es válido para Prerrequisitos\n"
+            return False
         elif optional is None or not re.fullmatch(self.allowValuesForOptionals, optional.strip()):
             self.errorReport += "Error en la línea " + \
                 str(self.count) + \
                 ": El valor " + \
                 optional+" no es válido para Opción\n"
+            return False
         elif semester is None or not re.fullmatch(self.allowValuesForSemesterAndCredits, semester.strip()):
             self.errorReport += "Error en la línea " + \
                 str(self.count) + \
                 ": El valor - " + \
                 semester + \
                 " - no es válido para Semestre\n"
+            return False
         elif credits is None or not re.fullmatch(self.allowValuesForSemesterAndCredits, credits.strip()):
             self.errorReport += "Error en la línea " + \
                 str(self.count) + \
                 ": El valor - " + \
                 credits + " - no es válido para Créditos\n"
+            return False
         elif state is None or not re.fullmatch(self.allowValuesForState, state.strip()):
 
             self.errorReport += "Error en la línea " + \
@@ -96,6 +101,7 @@ class CoursesByStudent:
                 ": El valor - " + \
                 state + \
                 " - no es válido para Estado\n"
+            return False
         if re.fullmatch(self.allowValuesForSemesterAndCredits, semester.strip()):
             if int(semester) > 12 or int(semester) < 1:
                 self.errorReport += "Error en la línea " + \
@@ -103,13 +109,15 @@ class CoursesByStudent:
                     ": El valor - " + \
                     semester + \
                     " - no es válido para Semestre\n"
+                return False
         if re.fullmatch(self.allowValuesForSemesterAndCredits, credits.strip()):
-            if int(credits) > 10 or int(credits) < 1:
+            if int(credits) > 10 or int(credits) < 0:
                 self.errorReport += "Error en la línea " + \
                     str(self.count) + \
                     ": El valor - " + \
                     credits + \
                     " - no es válido para Créditos\n"
+                return False
 
     '''Read the file and create the courses'''
 
@@ -123,9 +131,10 @@ class CoursesByStudent:
                     verifyCourse = line.split(",")
                     if len(verifyCourse) == 7:
                         # Define a regex to validate just numbers and limite the length of the field to 3-4 characters
-                        self.validateFields(verifyCourse[0], verifyCourse[1], verifyCourse[2],
-                                            verifyCourse[3], verifyCourse[4], verifyCourse[5], verifyCourse[6])
-                        if self.errorReport == "":
+                        isValidate = self.validateFields(verifyCourse[0], verifyCourse[1], verifyCourse[2],
+                                                         verifyCourse[3], verifyCourse[4], verifyCourse[5], verifyCourse[6])
+
+                        if isValidate is None:
                             newCourse = Course(int(verifyCourse[0]), verifyCourse[1], verifyCourse[2],
                                                int(verifyCourse[3]), int(verifyCourse[4]), int(verifyCourse[5]), int(verifyCourse[6]))
                             # Verify if the course exist in the system
@@ -133,11 +142,6 @@ class CoursesByStudent:
                                 if newCourse.idCourse == course.idCourse:
                                     self.coursesData.remove(course)
                             self.coursesData.append(newCourse)
-                        else:
-                            self.errorReport += "Error en la línea " + \
-                                str(self.count) + \
-                                ": " + \
-                                "Campos erróneos\n"
                     else:
                         self.errorReport += "Error en la línea " + \
                             str(self.count) + ": " + \
@@ -182,19 +186,9 @@ class CoursesByStudent:
         return len(self.coursesData)
 
     def updateCourse(self, idCourse, nameCourse, prerequisites, semester, optional,  credits, state):
-        elegibilityCourse = {
-            "Obligatorio": "0",
-            "Opcional": "1"
-        }
-        # List of options to state of the course
-        stateCourse = {
-            "Aprobado": "0",
-            "Cursando": "1",
-            "Pendiente": "-1"
-        }
 
-        optional = elegibilityCourse[optional]
-        state = stateCourse[state]
+        optional = self.elegibilityCourse[optional]
+        state = self.stateCourse[state]
 
         self.validateFields(idCourse, nameCourse, prerequisites,
                             optional, semester, credits, state)
@@ -254,7 +248,8 @@ class CoursesByStudent:
         count = 0
         for course in self.coursesData:
             if course.getSemester() <= semester:
-                count += course.getCredits()
+                if course.getIsRequired() == 1:
+                    count += course.getCredits()
         return count
 
     def countCreditsBySemester(self, semester):
