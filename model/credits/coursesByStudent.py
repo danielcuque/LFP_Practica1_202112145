@@ -158,8 +158,8 @@ class CoursesByStudent:
         return self.coursesData
 
     def createCourseByForm(self, idCourse, nameCourse, prerequisites, semester, optional,  credits, state):
-        optional = self.elegibilityCourse[optional]
-        state = self.stateCourse[state]
+        optional = self.elegibilityCourseStr[optional]
+        state = self.stateCourseStr[state]
 
         self.validateFields(idCourse, nameCourse, prerequisites,
                             optional, semester, credits, state)
@@ -187,8 +187,8 @@ class CoursesByStudent:
 
     def updateCourse(self, idCourse, nameCourse, prerequisites, semester, optional,  credits, state):
 
-        optional = self.elegibilityCourse[optional]
-        state = self.stateCourse[state]
+        optional = self.elegibilityCourseStr[optional]
+        state = self.stateCourseStr[state]
 
         self.validateFields(idCourse, nameCourse, prerequisites,
                             optional, semester, credits, state)
